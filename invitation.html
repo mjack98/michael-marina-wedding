@@ -108,6 +108,31 @@
     letter-spacing:0.2em; text-transform:uppercase; color:var(--gold-soft);
   }
 
+  /* ---------- Portrait ---------- */
+  .portrait-section{
+    padding:6rem 6vw 2rem;
+    display:flex; justify-content:center;
+  }
+  .portrait-frame{
+    position:relative;
+    max-width:420px; width:100%;
+    padding:14px;
+    background:var(--blush);
+    box-shadow:0 30px 60px rgba(15,45,31,0.18);
+  }
+  .portrait-frame::before{
+    content:""; position:absolute; inset:6px;
+    border:1px solid var(--gold-soft); pointer-events:none;
+  }
+  .portrait-frame img{
+    display:block; width:100%; height:auto;
+    filter:saturate(0.96) contrast(1.02);
+  }
+  .portrait-caption{
+    text-align:center; margin-top:1.4rem;
+    font-family:'Parisienne', cursive; font-size:1.6rem; color:var(--emerald-deep);
+  }
+
   /* ---------- Sections ---------- */
   section{ padding:7rem 6vw; }
   .section-head{ text-align:center; margin-bottom:3.5rem; }
@@ -210,6 +235,16 @@
     <div class="cd-unit"><span class="cd-num" id="cd-secs">00</span><div class="cd-label">Seconds</div></div>
   </div>
 </section>
+
+<!-- PORTRAIT -->
+<div class="portrait-section reveal">
+  <div>
+    <div class="portrait-frame">
+      <img src="images/couple.jpg" alt="Michael Jack and Marina Waheeb">
+    </div>
+    <div class="portrait-caption">Michael &amp; Marina</div>
+  </div>
+</div>
 
 <!-- VERSE -->
 <section class="reveal">
