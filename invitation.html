@@ -157,7 +157,7 @@
 
   /* ---------- Details cards ---------- */
   .details{
-    display:grid; grid-template-columns:1fr 1fr; gap:2.4rem; max-width:1000px; margin:0 auto;
+    display:grid; grid-template-columns:1fr; gap:2.4rem; max-width:600px; margin:0 auto;
   }
   @media (max-width:760px){ .details{ grid-template-columns:1fr; } }
 
@@ -167,6 +167,14 @@
   }
   .card::before{
     content:""; position:absolute; inset:8px; border:1px solid var(--gold-soft); pointer-events:none;
+  }
+  .card-link{
+    text-decoration:none; display:block; cursor:pointer;
+    transition:all 0.3s ease;
+  }
+  .card-link:hover{
+    transform:translateY(-4px);
+    box-shadow:0 12px 28px rgba(201,169,97,0.25);
   }
   .card-icon{ width:34px; height:34px; margin:0 auto 1rem; stroke:var(--emerald); fill:none; stroke-width:1.2; }
   .card-eyebrow{
@@ -269,23 +277,14 @@
   </div>
 
   <div class="details reveal">
-    <div class="card">
-      <svg class="card-icon" viewBox="0 0 48 48"><path d="M24 4v10M18 8h12M24 14c-8 4-12 10-12 18a12 12 0 0024 0c0-8-4-14-12-18z"/><path d="M14 44h20"/></svg>
-      <div class="card-eyebrow">Holy Matrimony</div>
-      <div class="card-title">Virgin Mary Church</div>
-      <div class="card-arabic">كنيسة العذراء مريم</div>
-      <div class="card-sub">Sadat City, Egypt</div>
-      <div class="card-time">7:00 PM</div>
-    </div>
-
-    <div class="card">
-      <svg class="card-icon" viewBox="0 0 48 48"><path d="M6 20l18-14 18 14"/><path d="M10 20v22h28V20"/><path d="M20 42V28h8v14"/></svg>
-      <div class="card-eyebrow">Reception</div>
-      <div class="card-title">Almasa Hall</div>
-      <div class="card-arabic">قاعة الماسة</div>
-      <div class="card-sub">Al Salam Club, Sadat City</div>
-      <div class="card-time">Following the ceremony</div>
-    </div>
+    <a href="#location-info" class="card card-link">
+      <svg class="card-icon" viewBox="0 0 48 48"><path d="M24 8c-4.42 0-8 3.58-8 8s8 16 8 16 8-11.58 8-16-3.58-8-8-8zm0 12c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/><circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="1"/></svg>
+      <div class="card-eyebrow">Our Locations</div>
+      <div class="card-title">View Venue Details</div>
+      <div class="card-arabic">اعرض تفاصيل الحفل</div>
+      <div class="card-sub">Church Ceremony & Reception Venue</div>
+      <div class="card-time" style="margin-top:1rem;">👉 Click to view maps →</div>
+    </a>
   </div>
 
   <div class="maps reveal" id="location-info">
