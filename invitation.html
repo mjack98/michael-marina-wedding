@@ -176,6 +176,13 @@
     transform:translateY(-4px);
     box-shadow:0 12px 28px rgba(201,169,97,0.25);
   }
+  .map-link{
+    display:inline-block; margin-top:1.4rem; position:relative; z-index:1;
+    font-family:'Montserrat', sans-serif; font-size:0.68rem; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--emerald); text-decoration:underline;
+    text-underline-offset:0.25em;
+  }
+  .map-link:hover{ color:var(--gold); }
   .card-icon{ width:34px; height:34px; margin:0 auto 1rem; stroke:var(--emerald); fill:none; stroke-width:1.2; }
   .card-eyebrow{
     font-family:'Montserrat', sans-serif; font-size:0.65rem; letter-spacing:0.3em;
@@ -252,23 +259,25 @@
   </div>
 
   <div class="details reveal">
-    <a href="https://www.google.com/maps/place/%D9%83%D9%86%D9%8A%D8%B3%D8%A9+%D8%A7%D9%84%D8%B3%D9%8A%D8%AF%D8%A9+%D8%A7%D9%84%D8%B9%D8%B0%D8%B1%D8%A7%D8%A1+%D9%85%D8%B1%D9%8A%D9%85+%D8%A8%D8%A7%D9%84%D8%B3%D8%A7%D8%AF%D8%A7%D8%AA+%D8%A5%D9%8A%D8%A8%D8%A7%D8%B1%D8%B4%D9%8A%D8%A9+%D8%A7%D9%84%D8%A8%D8%AD%D9%8A%D8%B1%D8%A9+%D9%88+%D9%85%D8%B1%D8%B3%D9%89+%D9%85%D8%B7%D8%B1%D9%88%D8%AD+%D9%88+%D8%A7%D9%84%D8%AE%D9%85%D8%B3+%D9%85%D8%AF%D9%86+%D8%A7%D9%84%D8%BA%D8%B1%D8%A8%D9%8A%D8%A9" target="_blank" rel="noopener noreferrer" class="card card-link">
+    <div class="card">
       <svg class="card-icon" viewBox="0 0 48 48"><path d="M24 4v10M18 8h12M24 14c-8 4-12 10-12 18a12 12 0 0024 0c0-8-4-14-12-18z"/><path d="M14 44h20"/></svg>
       <div class="card-eyebrow">Holy Matrimony</div>
       <div class="card-title">Virgin Mary Church</div>
       <div class="card-arabic">كنيسة العذراء مريم</div>
       <div class="card-sub">Sadat City, Egypt</div>
       <div class="card-time">7:00 PM</div>
-    </a>
+      <a href="https://www.google.com/maps/search/Virgin+Mary+Church+Sadat+City+Egypt" target="_blank" rel="noopener noreferrer" class="map-link">Open in Google Maps</a>
+    </div>
 
-    <a href="https://www.google.com/maps/search/Almasa+Hall+Al+Salam+Club+Sadat+City" target="_blank" rel="noopener noreferrer" class="card card-link">
+    <div class="card">
       <svg class="card-icon" viewBox="0 0 48 48"><path d="M6 20l18-14 18 14"/><path d="M10 20v22h28V20"/><path d="M20 42V28h8v14"/></svg>
       <div class="card-eyebrow">Reception</div>
       <div class="card-title">Almasa Hall</div>
       <div class="card-arabic">قاعة الماسة</div>
       <div class="card-sub">Al Salam Club, Sadat City</div>
       <div class="card-time">Following the ceremony</div>
-    </a>
+      <a href="https://www.google.com/maps/search/Almasa+Hall+Al+Salam+Club+Sadat+City" target="_blank" rel="noopener noreferrer" class="map-link">Open in Google Maps</a>
+    </div>
   </div>
 
 </section>
