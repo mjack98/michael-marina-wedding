@@ -188,6 +188,39 @@
     text-transform:uppercase; color:var(--emerald-deep); padding:0.8rem 0 0.2rem;
   }
 
+  /* ---------- Location Buttons ---------- */
+  .location-buttons{
+    display:grid; grid-template-columns:1fr 1fr; gap:2rem; max-width:1000px; margin:3.5rem auto 0;
+  }
+  @media (max-width:760px){ .location-buttons{ grid-template-columns:1fr; } }
+  
+  .location-btn{
+    background:var(--blush); border:1px solid var(--line);
+    padding:2rem; text-decoration:none; text-align:center;
+    transition:all 0.3s ease; position:relative; cursor:pointer;
+    display:block;
+  }
+  .location-btn::before{
+    content:""; position:absolute; inset:8px; border:1px solid var(--gold-soft); pointer-events:none;
+  }
+  .location-btn:hover{
+    background:var(--gold-soft); transform:translateY(-4px);
+    box-shadow:0 12px 24px rgba(201,169,97,0.15);
+  }
+  .location-btn-title{
+    font-size:1.4rem; color:var(--emerald-deep); font-weight:500; margin-bottom:0.8rem;
+  }
+  .location-btn-address{
+    font-family:'Montserrat', sans-serif; font-size:0.9rem; color:var(--ink);
+    line-height:1.6; margin-bottom:1.2rem;
+  }
+  .location-btn-cta{
+    display:inline-block; font-family:'Montserrat', sans-serif; font-size:0.75rem;
+    letter-spacing:0.2em; text-transform:uppercase; color:var(--gold);
+    font-weight:500; transition:color 0.3s ease;
+  }
+  .location-btn:hover .location-btn-cta{ color:var(--emerald); }
+
   /* ---------- RSVP / Closing ---------- */
   .closing{
     background:linear-gradient(180deg, #163a27, var(--emerald-deep));
@@ -285,6 +318,19 @@
       </div>
       <div class="map-label">Almasa Hall</div>
     </div>
+  </div>
+
+  <div class="location-buttons reveal">
+    <a href="https://www.google.com/maps/search/Virgin+Mary+Church+Sadat+City+Egypt" target="_blank" rel="noopener noreferrer" class="location-btn">
+      <div class="location-btn-title">Church Location</div>
+      <div class="location-btn-address">Virgin Mary Church<br>Sadat City, Egypt</div>
+      <span class="location-btn-cta">Get Directions →</span>
+    </a>
+    <a href="https://www.google.com/maps/search/Almasa+Hall+Al+Salam+Club+Sadat+City" target="_blank" rel="noopener noreferrer" class="location-btn">
+      <div class="location-btn-title">Reception Venue</div>
+      <div class="location-btn-address">Almasa Hall<br>Al Salam Club, Sadat City</div>
+      <span class="location-btn-cta">Get Directions →</span>
+    </a>
   </div>
 </section>
 
