@@ -583,6 +583,7 @@
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if(prefersReduced) return;
 
+    const root = document.documentElement;
     const speed = 1.2; // pixels per frame
     let active = false;
     let pos = 0;
@@ -590,31 +591,34 @@
     function maxScroll(){
       return Math.max(
         document.body.scrollHeight,
-        document.documentElement.scrollHeight
+        root.scrollHeight
       ) - window.innerHeight;
     }
 
     function step(){
       if(!active){ return; }
       pos = Math.min(pos + speed, maxScroll());
-      // behavior:'auto' bypasses the page's CSS smooth-scroll so increments accumulate.
-      window.scrollTo({ top: pos, behavior: 'auto' });
-      if(pos >= maxScroll()){ active = false; return; } // reached the bottom, stop
+      root.scrollTop = pos; // direct set; CSS smooth-scroll is disabled below so increments accumulate
+      if(pos >= maxScroll()){ finish(); return; } // reached the bottom, stop
       requestAnimationFrame(step);
     }
 
-    // Stop auto-scrolling as soon as the user takes over.
-    function stop(){
+    function finish(){
       active = false;
+      root.style.scrollBehavior = ''; // restore the page's smooth scrolling
       ['wheel','touchstart','pointerdown','keydown'].forEach(ev=>
         window.removeEventListener(ev, stop));
     }
+
+    // Stop auto-scrolling as soon as the user takes over.
+    function stop(){ finish(); }
     ['wheel','touchstart','pointerdown','keydown'].forEach(ev=>
       window.addEventListener(ev, stop, {passive:true}));
 
     setTimeout(()=>{
       active = true;
       pos = window.scrollY;
+      root.style.scrollBehavior = 'auto'; // override CSS smooth-scroll during auto-scroll
       requestAnimationFrame(step);
     }, 5000);
   })();
