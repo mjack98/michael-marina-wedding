@@ -606,86 +606,38 @@
 </script>
 
 <script>
-  // Gentle background music — soft ambient chords via Web Audio (no external file).
+  // Gentle background music — real audio track, quiet and looping.
   (function(){
     const toggle = document.getElementById('musicToggle');
-    let ctx, master, progressionTimer;
-    let playing = false;
+    const audio = new Audio('audio/background.mp3');
+    audio.loop = true;
+    audio.volume = 0.35; // keep it soft
+    audio.preload = 'auto';
 
-    // A calm, slow chord progression (frequencies in Hz). Warm, quiet, romantic.
-    const chords = [
-      [261.63, 329.63, 392.00], // C major
-      [392.00, 493.88, 587.33], // G major
-      [220.00, 329.63, 440.00], // A minor
-      [349.23, 440.00, 523.25]  // F major
-    ];
-    let chordIndex = 0;
-
-    function playChord(freqs){
-      if(!ctx) return;
-      const now = ctx.currentTime;
-      const dur = 6;
-      freqs.forEach((f, i)=>{
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = i === 0 ? 'sine' : 'triangle';
-        osc.frequency.value = f;
-        // Soft, quiet swell in and out.
-        gain.gain.setValueAtTime(0.0001, now);
-        gain.gain.exponentialRampToValueAtTime(0.05, now + 1.8);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + dur);
-        osc.connect(gain).connect(master);
-        osc.start(now);
-        osc.stop(now + dur + 0.1);
-      });
+    function setPlayingUI(on){
+      toggle.classList.toggle('playing', on);
+      toggle.setAttribute('aria-pressed', on ? 'true' : 'false');
+      toggle.setAttribute('aria-label', on ? 'Pause background music' : 'Play background music');
+      toggle.title = on ? 'Pause music' : 'Play music';
     }
 
-    function nextChord(){
-      playChord(chords[chordIndex]);
-      chordIndex = (chordIndex + 1) % chords.length;
-    }
+    audio.addEventListener('play', ()=> setPlayingUI(true));
+    audio.addEventListener('pause', ()=> setPlayingUI(false));
 
-    function start(){
-      if(playing) return;
-      if(!ctx){
-        const AC = window.AudioContext || window.webkitAudioContext;
-        if(!AC) return;
-        ctx = new AC();
-        master = ctx.createGain();
-        master.gain.value = 0.35; // keep it quiet
-        master.connect(ctx.destination);
-      }
-      if(ctx.state === 'suspended') ctx.resume();
-      playing = true;
-      toggle.classList.add('playing');
-      toggle.setAttribute('aria-pressed','true');
-      toggle.setAttribute('aria-label','Pause background music');
-      toggle.title = 'Pause music';
-      nextChord();
-      progressionTimer = setInterval(nextChord, 4500);
-    }
+    function play(){ audio.play().catch(()=>{}); }
+    function stop(){ audio.pause(); }
 
-    function stop(){
-      if(!playing) return;
-      playing = false;
-      clearInterval(progressionTimer);
-      if(ctx) ctx.suspend();
-      toggle.classList.remove('playing');
-      toggle.setAttribute('aria-pressed','false');
-      toggle.setAttribute('aria-label','Play background music');
-      toggle.title = 'Play music';
-    }
+    toggle.addEventListener('click', ()=> audio.paused ? play() : stop());
 
-    toggle.addEventListener('click', ()=> playing ? stop() : start());
-
-    // Try to begin softly on the guest's first interaction (autoplay-safe).
+    // Try to start automatically; if the browser blocks autoplay, begin on first interaction.
+    play();
     function autoStart(){
-      start();
+      if(audio.paused) play();
       ['pointerdown','touchstart','keydown'].forEach(ev=>
         window.removeEventListener(ev, autoStart));
     }
     ['pointerdown','touchstart','keydown'].forEach(ev=>
-      window.addEventListener(ev, autoStart, {passive:true, once:false}));
+      window.addEventListener(ev, autoStart, {passive:true}));
   })();
 </script>
 
