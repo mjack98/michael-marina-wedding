@@ -577,5 +577,42 @@
   setInterval(tick, 1000);
 </script>
 
+<script>
+  // Gentle auto-scroll down the page; pauses when the user interacts and resumes after a pause.
+  (function(){
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(prefersReduced) return;
+
+    const speed = 0.6;      // pixels per frame
+    let paused = false;
+    let resumeTimer = null;
+    let rafId = null;
+
+    function maxScroll(){
+      return document.documentElement.scrollHeight - window.innerHeight;
+    }
+
+    function step(){
+      if(!paused){
+        if(window.scrollY < maxScroll()){
+          window.scrollBy(0, speed);
+        }
+      }
+      rafId = requestAnimationFrame(step);
+    }
+
+    function pause(){
+      paused = true;
+      if(resumeTimer) clearTimeout(resumeTimer);
+      resumeTimer = setTimeout(()=>{ paused = false; }, 2500);
+    }
+
+    ['wheel','touchstart','pointerdown','keydown'].forEach(ev=>
+      window.addEventListener(ev, pause, {passive:true}));
+
+    rafId = requestAnimationFrame(step);
+  })();
+</script>
+
 </body>
 </html>
