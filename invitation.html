@@ -290,37 +290,9 @@
   .lightbox-close:hover{opacity:1}
   @media(prefers-reduced-motion:reduce){.gallery-track{animation:none}}
   @media(max-width:600px){.details{grid-template-columns:1fr}.card{min-height:210px}.hero-photo{width:92%}}
-
-  /* Background music toggle */
-  .music-toggle{
-    position:fixed; right:16px; bottom:16px; z-index:70;
-    width:52px; height:52px; border-radius:50%;
-    display:grid; place-items:center; cursor:pointer;
-    color:var(--ivory);
-    background:linear-gradient(145deg, var(--emerald) 0%, #163a27 100%);
-    border:1px solid rgba(201,169,97,.55);
-    box-shadow:0 8px 20px rgba(0,0,0,.28), 0 0 0 1px rgba(201,169,97,.18) inset;
-    transition:transform .25s ease, box-shadow .25s ease;
-    -webkit-tap-highlight-color:transparent;
-  }
-  .music-toggle:hover{transform:translateY(-2px); box-shadow:0 12px 26px rgba(0,0,0,.34), 0 0 0 1px rgba(201,169,97,.3) inset;}
-  .music-toggle svg{width:24px;height:24px;fill:var(--gold);}
-  .music-toggle .icon-pause{display:none;}
-  .music-toggle.playing .icon-play{display:none;}
-  .music-toggle.playing .icon-pause{display:block;}
-  .music-toggle.playing::after{
-    content:''; position:absolute; inset:-4px; border-radius:50%;
-    border:1px solid rgba(201,169,97,.35);
-    animation:musicPulse 2.4s ease-out infinite;
-  }
-  @keyframes musicPulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.35);opacity:0}}
 </style>
 </head>
 <body>
-<button class="music-toggle" id="musicToggle" type="button" aria-label="Play background music" aria-pressed="false" title="Play music">
-  <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v9.28a4.5 4.5 0 1 0 2 3.72V7h4V3h-6z"/></svg>
-  <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3v14H7V5zm7 0h3v14h-3V5z"/></svg>
-</button>
 <main class="invitation">
 
 <!-- HERO -->
@@ -603,42 +575,6 @@
   }
   tick();
   setInterval(tick, 1000);
-</script>
-
-<script>
-  // Gentle background music — real audio track, quiet and looping.
-  (function(){
-    const toggle = document.getElementById('musicToggle');
-    const audio = new Audio('audio/background.mp3');
-    audio.loop = true;
-    audio.volume = 0.35; // keep it soft
-    audio.preload = 'auto';
-
-    function setPlayingUI(on){
-      toggle.classList.toggle('playing', on);
-      toggle.setAttribute('aria-pressed', on ? 'true' : 'false');
-      toggle.setAttribute('aria-label', on ? 'Pause background music' : 'Play background music');
-      toggle.title = on ? 'Pause music' : 'Play music';
-    }
-
-    audio.addEventListener('play', ()=> setPlayingUI(true));
-    audio.addEventListener('pause', ()=> setPlayingUI(false));
-
-    function play(){ audio.play().catch(()=>{}); }
-    function stop(){ audio.pause(); }
-
-    toggle.addEventListener('click', ()=> audio.paused ? play() : stop());
-
-    // Try to start automatically; if the browser blocks autoplay, begin on first interaction.
-    play();
-    function autoStart(){
-      if(audio.paused) play();
-      ['pointerdown','touchstart','keydown'].forEach(ev=>
-        window.removeEventListener(ev, autoStart));
-    }
-    ['pointerdown','touchstart','keydown'].forEach(ev=>
-      window.addEventListener(ev, autoStart, {passive:true}));
-  })();
 </script>
 
 </body>
