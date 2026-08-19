@@ -594,8 +594,11 @@
 
     function step(){
       if(!paused){
-        if(window.scrollY < maxScroll()){
+        if(window.scrollY < maxScroll() - 1){
           window.scrollBy(0, speed);
+        } else {
+          // Reached the bottom — loop back to the top and keep scrolling.
+          window.scrollTo(0, 0);
         }
       }
       rafId = requestAnimationFrame(step);
