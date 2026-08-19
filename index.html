@@ -6,7 +6,7 @@
 <title>Michael & Marina</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Parisienne&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Parisienne&family=Montserrat:wght@300;400&family=Amiri&display=swap" rel="stylesheet">
 <style>
   :root{
     --ink:#0d2818;
@@ -94,7 +94,11 @@
     opacity:0;
   }
 
-  .seal{ width:132px; height:132px; display:block; }
+  .seal{ width:132px; height:132px; display:block;
+    /* gentle beckon pulse to hint that the seal is tappable */
+    animation: sealBeckon 1.6s ease-in-out 2.6s infinite; }
+  @keyframes sealBeckon{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.06); } }
+  .stage.open .seal{ animation:none; }
   .seal-ring{ fill:#cdae7d; }
   .seal-ring-2{ fill:#dcc296; }
   .seal-face{ fill:#d6bb8b; }
@@ -167,6 +171,11 @@
     animation: fadeUp 0.9s ease forwards;
     animation-delay:0.75s;
   }
+  .names-ar{
+    display:block; margin-top:6px;
+    font-family:'Amiri', serif; letter-spacing:normal; text-transform:none;
+    font-size:0.9rem; direction:rtl;
+  }
 
   .stage.open .prompt, .stage.open .names-above{ opacity:0; transition:opacity 0.3s ease; }
 
@@ -213,7 +222,7 @@
     <svg class="emboss tl" viewBox="0 0 100 100"><path d="M10 90 Q20 60 40 55 Q35 40 50 30 Q60 45 55 60 Q75 55 90 70" stroke-linecap="round"/></svg>
     <svg class="emboss br" viewBox="0 0 100 100"><path d="M10 90 Q20 60 40 55 Q35 40 50 30 Q60 45 55 60 Q75 55 90 70" stroke-linecap="round"/></svg>
 
-    <div class="names-above">Michael &amp; Marina</div>
+    <div class="names-above">Michael Jack &amp; Marina Waheeb<span class="names-ar">مايكل جاك &amp; مارينا وهيب</span></div>
 
     <div class="flap"></div>
 
@@ -232,7 +241,7 @@
     </div>
 
     <div class="prompt">
-      <span>Tap to open</span>
+      <span>☝ Tap the seal to open</span>
     </div>
   </div>
 </div>
