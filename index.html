@@ -183,6 +183,24 @@
       animation:none !important; opacity:1 !important; transform:none !important;
     }
   }
+
+  /* Reference-inspired envelope composition */
+  body{background:radial-gradient(ellipse at 50% 20%,rgba(255,255,255,.7),transparent 55%),#f4eee5;color:#4b2028}
+  .stage{width:min(560px,94vw);aspect-ratio:4/3}
+  .paper{inset:auto 0 0;height:60%;background:linear-gradient(145deg,#722b39,#571e2a);box-shadow:0 24px 45px rgba(72,35,37,.18),0 0 0 1px rgba(255,255,255,.12) inset}
+  .flap{top:40%;height:60%;background:linear-gradient(160deg,#722b39,#491723);box-shadow:0 1px 0 rgba(255,255,255,.12) inset}
+  .emboss{stroke:rgba(255,228,205,.18)}
+  .photo{position:absolute;z-index:2;top:5%;left:24%;width:53%;height:55%;object-fit:cover;object-position:center 28%;padding:8px;background:#fff;box-shadow:0 12px 22px rgba(55,22,28,.22);transform:rotate(8deg);transition:transform 1s cubic-bezier(.6,-.1,.2,1),opacity .8s ease}
+  .stage.open .photo{transform:translateY(-12%) rotate(8deg);opacity:.2}
+  .florals{position:absolute;z-index:3;left:10%;top:15%;width:32%;height:46%;transform:rotate(-12deg);pointer-events:none}
+  .florals::before{content:'✦  ✿  ❁';position:absolute;color:#7a2332;font-size:2.5rem;line-height:1.15;text-shadow:1.4rem 2rem 0 #b48b52,2.8rem 3.2rem 0 #7a2332}
+  .florals::after{content:'';position:absolute;left:42%;top:4%;width:2px;height:100%;background:#a98254;transform:rotate(18deg);box-shadow:-18px 40px 0 #a98254,15px 70px 0 #a98254}
+  .names-above{top:2%;color:rgba(87,30,42,.78)}
+  .seal-wrap{top:67%}
+  .seal-ring{fill:#b27a35}.seal-ring-2{fill:#d6a957}.seal-face{fill:#c89443}
+  .letter,.seal .amp{display:none}.heart{font-family:Georgia,serif;font-size:62px;fill:#5a2b1d;opacity:1}.prompt{bottom:3%;color:#571e2a;text-shadow:none}
+  .fade-out{background:#3d1420}
+  @media(max-width:600px){.stage{aspect-ratio:3/4}.photo{left:20%;width:60%;height:53%}.florals{left:4%;width:38%}}
 </style>
 </head>
 <body>
@@ -190,6 +208,8 @@
 <div class="stage" id="stage">
   <div class="envelope">
     <div class="paper"></div>
+    <img class="photo" src="couple.jpg" alt="Michael and Marina together">
+    <div class="florals" aria-hidden="true"></div>
 
     <svg class="emboss tl" viewBox="0 0 100 100"><path d="M10 90 Q20 60 40 55 Q35 40 50 30 Q60 45 55 60 Q75 55 90 70" stroke-linecap="round"/></svg>
     <svg class="emboss br" viewBox="0 0 100 100"><path d="M10 90 Q20 60 40 55 Q35 40 50 30 Q60 45 55 60 Q75 55 90 70" stroke-linecap="round"/></svg>
@@ -205,6 +225,7 @@
         <circle class="seal-ring-2" cx="66" cy="66" r="55"/>
         <circle class="seal-face" cx="66" cy="66" r="48"/>
         <ellipse class="seal-highlight" cx="48" cy="42" rx="20" ry="12"/>
+        <text class="heart" x="66" y="87" text-anchor="middle">♡</text>
         <text class="letter m1" x="40" y="70" text-anchor="middle">M</text>
         <text class="amp" x="66" y="86" text-anchor="middle">&amp;</text>
         <text class="letter m2" x="92" y="70" text-anchor="middle">M</text>
