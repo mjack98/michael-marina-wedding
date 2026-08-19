@@ -270,7 +270,29 @@
   section:not(.hero){padding:4.5rem clamp(1.25rem,6vw,4.5rem);text-align:center}.section-eyebrow{font-size:.62rem;letter-spacing:.3em;color:var(--rose)}.section-title{font-size:clamp(2rem,6vw,3rem);color:var(--rose-deep);margin:.7rem 0 1.6rem}.verse{max-width:540px;font-size:1.35rem;line-height:1.7;color:var(--rose-deep)}.verse .arabic{font-size:1.1rem;color:var(--rose)}
   .details{grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);max-width:640px}.card{background:var(--cream);padding:2.1rem 1rem;min-height:250px}.card::before{display:none}.card-icon{display:none}.card-eyebrow{font-size:.6rem;letter-spacing:.24em;color:var(--rose);margin-bottom:.7rem}.card-title{font-size:1.55rem;color:var(--rose-deep)}.card-arabic{color:var(--rose)}.card-sub{font-size:.72rem;line-height:1.6;margin-top:.7rem}.card-time{font-size:1.1rem;color:var(--rose-deep);margin-top:.7rem}.map-link{font-size:.58rem;letter-spacing:.1em;color:var(--rose-deep);margin-top:1rem}
   .closing{background:var(--rose-deep);color:var(--paper)}.closing-msg{font-size:1.2rem;line-height:1.8;color:#f5ddd2}.closing-names{font-size:2.5rem;color:#f0c7b7;margin-top:1rem}footer{background:#573638;color:#efd4c8;padding:1.4rem;font-size:.58rem;letter-spacing:.18em}
-  @media(max-width:600px){.details{grid-template-columns:1fr}.card{min-height:210px}.hero-photo{width:92%}}
+  /* GALLERY */
+  .gallery{max-width:920px;margin:0 auto;display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:120px;gap:14px}
+  .gallery-item{position:relative;overflow:hidden;border-radius:12px;cursor:pointer;box-shadow:0 12px 26px rgba(95,57,49,.14);opacity:0;transform:translateY(38px) scale(.93);transition:opacity .8s ease,transform .9s cubic-bezier(.2,.7,.3,1),box-shadow .4s ease}
+  .gallery-item.in{opacity:1;transform:none}
+  .gallery-item:nth-child(1){grid-column:span 3;grid-row:span 2;transition-delay:0s}
+  .gallery-item:nth-child(2){grid-column:span 3;transition-delay:.1s}
+  .gallery-item:nth-child(3){grid-column:span 3;transition-delay:.2s}
+  .gallery-item:nth-child(4){grid-column:span 2;grid-row:span 2;transition-delay:.3s}
+  .gallery-item:nth-child(5){grid-column:span 4;grid-row:span 2;transition-delay:.4s}
+  .gallery-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .9s cubic-bezier(.2,.7,.3,1)}
+  .gallery-item:hover{box-shadow:0 20px 40px rgba(95,57,49,.28)}
+  .gallery-item:hover img{transform:scale(1.09)}
+  .gallery-item::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(87,30,42,.32),transparent 48%);opacity:0;transition:opacity .4s ease}
+  .gallery-item:hover::after{opacity:1}
+  /* LIGHTBOX */
+  .lightbox{position:fixed;inset:0;z-index:60;background:rgba(43,16,21,.93);display:flex;align-items:center;justify-content:center;padding:5vw;opacity:0;pointer-events:none;transition:opacity .4s ease}
+  .lightbox.open{opacity:1;pointer-events:auto}
+  .lightbox img{max-width:100%;max-height:88vh;border:8px solid #fff;box-shadow:0 24px 60px rgba(0,0,0,.55);transform:scale(.9);transition:transform .45s cubic-bezier(.2,.8,.3,1)}
+  .lightbox.open img{transform:scale(1)}
+  .lightbox-close{position:absolute;top:16px;right:26px;background:none;border:0;color:#fff;font-size:2.6rem;line-height:1;cursor:pointer;opacity:.85}
+  .lightbox-close:hover{opacity:1}
+  @media(prefers-reduced-motion:reduce){.gallery-item{transition:opacity .3s ease}}
+  @media(max-width:600px){.details{grid-template-columns:1fr}.card{min-height:210px}.hero-photo{width:92%}.gallery{grid-template-columns:repeat(2,1fr);grid-auto-rows:110px;gap:10px}.gallery-item:nth-child(n){grid-column:span 1;grid-row:span 1}.gallery-item:nth-child(1){grid-column:span 2;grid-row:span 2}.gallery-item:nth-child(5){grid-column:span 2}}
 </style>
 </head>
 <body>
@@ -445,6 +467,21 @@
 
 </section>
 
+<!-- GALLERY -->
+<section class="gallery-section">
+  <div class="section-head reveal">
+    <div class="section-eyebrow">Cherished Moments</div>
+    <div class="section-title">Our Gallery</div>
+  </div>
+  <div class="gallery">
+    <div class="gallery-item"><img src="images/img1.jpeg" alt="Michael and Marina moment 1" loading="lazy"></div>
+    <div class="gallery-item"><img src="images/img2.jpeg" alt="Michael and Marina moment 2" loading="lazy"></div>
+    <div class="gallery-item"><img src="images/img3.jpeg" alt="Michael and Marina moment 3" loading="lazy"></div>
+    <div class="gallery-item"><img src="images/img4.jpeg" alt="Michael and Marina moment 4" loading="lazy"></div>
+    <div class="gallery-item"><img src="images/img5.jpeg" alt="Michael and Marina moment 5" loading="lazy"></div>
+  </div>
+</section>
+
 <!-- CLOSING -->
 <section class="closing reveal">
   <svg class="monogram" viewBox="0 0 78 78">
@@ -460,6 +497,11 @@
 
 <footer>30 · 08 · 2026 &nbsp;—&nbsp; SADAT CITY, EGYPT</footer>
 
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lightbox-close" aria-label="Close">&times;</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
 </main>
 
 <script>
@@ -468,6 +510,20 @@
     entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); } });
   }, { threshold:0.15 });
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  document.querySelectorAll('.gallery-item').forEach(el=>io.observe(el));
+
+  // Gallery lightbox
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightbox-img');
+  document.querySelectorAll('.gallery-item img').forEach(img=>{
+    img.parentElement.addEventListener('click', ()=>{
+      lbImg.src = img.src; lbImg.alt = img.alt;
+      lb.classList.add('open'); lb.setAttribute('aria-hidden','false');
+    });
+  });
+  const closeLb = ()=>{ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); };
+  lb.addEventListener('click', closeLb);
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeLb(); });
 
   // Let guests read the invitation hands-free, while yielding to interaction.
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
