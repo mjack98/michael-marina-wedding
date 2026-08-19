@@ -578,34 +578,39 @@
 </script>
 
 <script>
-  // Gentle auto-scroll down the page; pauses when the user interacts and resumes after a pause.
+  // Gentle auto-scroll down the whole page; starts 5s after load, pauses on interaction, loops at the end.
   (function(){
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if(prefersReduced) return;
 
     const speed = 0.6;      // pixels per frame
     let paused = false;
+    let started = false;
     let resumeTimer = null;
-    let rafId = null;
+    let pos = 0;
 
     function maxScroll(){
-      return document.documentElement.scrollHeight - window.innerHeight;
+      return Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight
+      ) - window.innerHeight;
     }
 
     function step(){
-      if(!paused){
-        if(window.scrollY < maxScroll() - 1){
-          window.scrollBy(0, speed);
-        } else {
-          // Reached the bottom — loop back to the top and keep scrolling.
-          window.scrollTo(0, 0);
+      if(started && !paused){
+        pos += speed;
+        if(pos >= maxScroll()){
+          pos = 0; // loop back to the top
         }
+        // behavior:'auto' bypasses the page's CSS smooth-scroll so increments accumulate.
+        window.scrollTo({ top: pos, behavior: 'auto' });
       }
-      rafId = requestAnimationFrame(step);
+      requestAnimationFrame(step);
     }
 
     function pause(){
       paused = true;
+      pos = window.scrollY; // resync so we resume from where the user left off
       if(resumeTimer) clearTimeout(resumeTimer);
       resumeTimer = setTimeout(()=>{ paused = false; }, 2500);
     }
@@ -613,7 +618,9 @@
     ['wheel','touchstart','pointerdown','keydown'].forEach(ev=>
       window.addEventListener(ev, pause, {passive:true}));
 
-    rafId = requestAnimationFrame(step);
+    // Begin auto-scrolling 5 seconds after the page loads.
+    setTimeout(()=>{ started = true; pos = window.scrollY; }, 5000);
+    requestAnimationFrame(step);
   })();
 </script>
 
