@@ -578,15 +578,13 @@
 </script>
 
 <script>
-  // Gentle auto-scroll down the whole page; starts 5s after load, pauses on interaction, loops at the end.
+  // Auto-scroll to the bottom once, starting 5s after load. Stops at the bottom (no looping).
   (function(){
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if(prefersReduced) return;
 
-    const speed = 0.6;      // pixels per frame
-    let paused = false;
-    let started = false;
-    let resumeTimer = null;
+    const speed = 1.2; // pixels per frame
+    let active = false;
     let pos = 0;
 
     function maxScroll(){
@@ -597,30 +595,28 @@
     }
 
     function step(){
-      if(started && !paused){
-        pos += speed;
-        if(pos >= maxScroll()){
-          pos = 0; // loop back to the top
-        }
-        // behavior:'auto' bypasses the page's CSS smooth-scroll so increments accumulate.
-        window.scrollTo({ top: pos, behavior: 'auto' });
-      }
+      if(!active){ return; }
+      pos = Math.min(pos + speed, maxScroll());
+      // behavior:'auto' bypasses the page's CSS smooth-scroll so increments accumulate.
+      window.scrollTo({ top: pos, behavior: 'auto' });
+      if(pos >= maxScroll()){ active = false; return; } // reached the bottom, stop
       requestAnimationFrame(step);
     }
 
-    function pause(){
-      paused = true;
-      pos = window.scrollY; // resync so we resume from where the user left off
-      if(resumeTimer) clearTimeout(resumeTimer);
-      resumeTimer = setTimeout(()=>{ paused = false; }, 2500);
+    // Stop auto-scrolling as soon as the user takes over.
+    function stop(){
+      active = false;
+      ['wheel','touchstart','pointerdown','keydown'].forEach(ev=>
+        window.removeEventListener(ev, stop));
     }
-
     ['wheel','touchstart','pointerdown','keydown'].forEach(ev=>
-      window.addEventListener(ev, pause, {passive:true}));
+      window.addEventListener(ev, stop, {passive:true}));
 
-    // Begin auto-scrolling 5 seconds after the page loads.
-    setTimeout(()=>{ started = true; pos = window.scrollY; }, 5000);
-    requestAnimationFrame(step);
+    setTimeout(()=>{
+      active = true;
+      pos = window.scrollY;
+      requestAnimationFrame(step);
+    }, 5000);
   })();
 </script>
 
